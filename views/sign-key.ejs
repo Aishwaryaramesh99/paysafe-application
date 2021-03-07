@@ -1,0 +1,78 @@
+<html>
+<head>
+    <script src="https://hosted.test.paysafe.com/checkout/v2/paysafe.checkout.min.js"></script>
+</head>
+
+
+<body>
+<button onclick="checkout()"> Pay $25 </button>
+</body>
+
+<script>
+    function checkout() {
+        paysafe.checkout.setup(process.env.id_key, {
+            "currency": "USD",
+            "amount": 10000,
+            "singleUseCustomerToken": "SPFAB1cA5iwdu48H",
+            "locale": "en_US",
+            "customer": {
+                "firstName": "John",
+                "lastName": "Dee",
+                "email": "johndee@paysafe.com",
+                "phone": "1234567890",
+                "dateOfBirth": {
+                    "day": 1,
+                    "month": 7,
+                    "year": 1990
+                }
+            },
+            "billingAddress": {
+                "nickName": "John Dee",
+                "street": "20735 Stevens Creek Blvd",
+                "street2": "Montessori",
+                "city": "Cupertino",
+                "zip": "95014",
+                "country": "US",
+                "state": "CA"
+            },
+            "environment": "TEST",
+            "merchantRefNum": "1559900597607",
+            "canEditAmount": true,
+            "paymentMethodDetails": {
+                "paysafecard": {
+                    "consumerId": "1232323"
+                },
+                "paysafecash": {
+                    "consumerId": "123456"
+                },
+                "sightline": {
+                    "consumerId": "123456"
+                },
+                "vippreferred":{
+                    "consumerId": "550726575"
+                }
+            },
+            "payout": true,
+            "payoutConfig": {
+                "maximumAmount": 100000
+            }
+        }, function(instance, error, result) {
+            if (result && result.paymentHandleToken) {
+                console.log(result.paymentHandleToken);
+                // make AJAX call to Payments API
+            } else {
+                console.error(error);
+                // Handle the error
+            }
+        }, function(stage, expired) {
+            switch(stage) {
+                case "PAYMENT_HANDLE_NOT_CREATED": // Handle the scenario
+                case "PAYMENT_HANDLE_CREATED": // Handle the scenario
+                case "PAYMENT_HANDLE_REDIRECT": // Handle the scenario
+                case "PAYMENT_HANDLE_PAYABLE": // Handle the scenario
+                default: // Handle the scenario
+            }
+        });
+    }
+</script>
+</html>
