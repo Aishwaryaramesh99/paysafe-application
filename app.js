@@ -10,14 +10,8 @@ var logger = require('morgan');
 require('dotenv').config();
 
 //routes
-//var indexRouter = require('./routes/index');
-//var login=require('./routes/login');
-//var forgot=require('./routes/forgot');
 var signup=require('./routes/signup');
-//var cart1=require('./routes/cart');
-
-//var aboutus = require('./routes/about');
-//var usersRouter = require('./routes/users');
+var signup-key=require('./routes/signup-key');
 
 var app = express();
 
@@ -28,7 +22,7 @@ app.set('view engine', 'ejs');
 //mongoose setup
 const mongoose = require('mongoose');
 //You need to have an account created ib mongoose and use connect url directly
-mongoose.connect('mongodb+srv://bhargav:bhargav@cluster0.l9atb.mongodb.net/myFirstDatabase?retryWrites=true&w=majority');
+mongoose.connect('mongodb+srv://+process.env.username+:+process.env.pswd+@cluster0.l9atb.mongodb.net/myFirstDatabase?retryWrites=true&w=majority');
 const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', function (callback) {
@@ -76,16 +70,14 @@ app.post('/sign-up-complete1', function (req,res) {
     url = "https://api.test.paysafe.com/paymenthub/v1/customers";
     fetch(url, params).then((response) => {
         return response.json();
+      response.render(signup-key,response.json());
     }).then((data) => {
         console.log(data);
     })
-    //var psw = req.body.psw;
-    //var pswrepeat = req.body.pswrepeat;
     /*
     if(1) {
         User.find({username : req.body.username},function(err, items) {
             if (err) return console.error(err);
-            //console.dir(shop);
             if (items.length>0) {
                 console.log("user found")
                 res.render('https://hosted.test.paysafe.com/checkout/v2/paysafe.checkout.min.js');
